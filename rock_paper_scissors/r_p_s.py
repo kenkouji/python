@@ -1,7 +1,7 @@
 import random
 while True:
     choices=["rock","paper","scissors"]
-    player_choices=input("Enter you choice(rock,paper,scissors {choice}: ")
+    player_choices=input("Enter you choice(rock,paper,scissors) : ")
     computer_choice=random.choice(choices)
     if player_choices not in choices:
         print("invalid choice choose again!")
