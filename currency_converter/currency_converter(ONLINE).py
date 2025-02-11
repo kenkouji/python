@@ -1,25 +1,30 @@
-from forex_python.converter import CurrencyRates
+exchange_rates = {
+    "USD": {"EUR": 0.92, "CAD": 1.34, "INR": 82.50},
+    "EUR": {"USD": 1.09, "CAD": 1.46, "INR": 89.50},
+    "CAD": {"USD": 0.75, "EUR": 0.68, "INR": 60.90},
+    "INR": {"USD": 0.012, "EUR": 0.011, "CAD": 0.016}
+}
 
-def currency_conversion(source_currency, target_currency, amount):
-    c = CurrencyRates()
-    source_currency = source_currency.upper()
-    target_currency = target_currency.upper()
+def currency_exchange():
+    while True:
+        try:
+            amount = float(input("Enter the amount you want to convert: "))
+            source_currency = input("The amount is in which currency? (USD/EUR/CAD/INR): ").upper()
+            target_currency = input("The amount you want to convert to which currency? (USD/EUR/CAD/INR): ").upper()
 
-    try:
-        exchange_rate = c.get_rate(source_currency, target_currency)
-        converted_amount = amount * exchange_rate
-        print(f"{amount} {source_currency} = {converted_amount:.2f} {target_currency}")
-    except Exception as e:
-        print("Error: Invalid currency code or network issue")
-        print(f"Details: {e}")  # This helps debug errors
+            if source_currency in exchange_rates and target_currency in exchange_rates[source_currency]:
+                converted_amount = amount * exchange_rates[source_currency][target_currency]
+                print(f"\n💰 {amount} {source_currency} is equal to {converted_amount:.2f} {target_currency} 💰\n")
+             
+                again = input("Do you want to convert another amount? (y/n): ").lower()
+                if again != 'y':
+                    print("Thank you for using the currency converter! 😊")
+                    break  
+            else:
+                print("\n⚠️ Invalid currency choice. Please enter a valid currency code (USD, EUR, CAD, INR).\n")
+        
+        except ValueError:
+            print("\n❌ Invalid amount entered! Please enter a valid number.\n")
 
-# Get user input
-try:
-    amount = float(input("Enter the amount: "))
-    source_currency = input("Source currency (e.g., USD, EUR, CAD): ")
-    target_currency = input("Target currency (e.g., USD, EUR, CAD): ")
 
-    currency_conversion(source_currency, target_currency, amount)
-
-except ValueError:
-    print("Invalid input! Please enter a numeric amount.")
+currency_exchange()
